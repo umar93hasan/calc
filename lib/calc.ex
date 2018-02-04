@@ -5,7 +5,7 @@ defmodule Calc do
   Running Calc.main
 
   program takes an arithmetic expression containing both int & float as input
-  and evaluates the given arithmetic expression to give a float output
+  and evaluates the given arithmetic expression to give a float/int output
 
   """
 
@@ -32,7 +32,7 @@ defmodule Calc do
       op === "+" -> val1 + val2
       op === "-" -> val1 - val2
       op === "*" -> val1 * val2
-      op === "/" -> val1 / val2
+      op === "/" -> floatToIntFloat(val1 / val2)
       true -> IO.puts "Incorrect input #{op}"
     end
   end
@@ -69,9 +69,17 @@ defmodule Calc do
     {opStack,valStack}
   end
 
+  def floatToIntFloat(x) do
+    if x-trunc(x) == 0 do
+      trunc(x)
+    else
+      x
+    end
+  end
+
   def eval([h | t],valStack,opStack) do
     cond do
-      is_float(h) ->
+      is_float(h) or is_integer(h) ->
         valStack = push(valStack,h)
         eval(t,valStack,opStack)
       h === "(" ->
@@ -108,6 +116,7 @@ defmodule Calc do
           eval(list)
       Float.parse(exp)!=:error ->
         {num,exp} = Float.parse(exp)
+        num = floatToIntFloat(num)
         list = List.insert_at(list,-1,num)
         eval(exp,list)
     end

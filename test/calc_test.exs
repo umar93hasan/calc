@@ -50,4 +50,12 @@ defmodule CalcTest do
    assert Calc.pop([3,2,1]) == {3,[2,1]}
   end
 
+  test "floatToIntFloat(5.0) gives 5" do
+    assert Calc.floatToIntFloat(5.0)  == 5
+  end
+
+  test "floatToIntFloat(5.5) gives 5.5" do
+    assert Calc.floatToIntFloat(5.5)  == 5.5
+  end
+
 end
